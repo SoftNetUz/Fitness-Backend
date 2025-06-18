@@ -1,0 +1,16 @@
+# CORS pkg
+django-cors-headers;
+
+# RestApi pkg
+djangorestframework;
+markdown;
+django-filter;
+
+# JWT pkg
+djangorestframework-simplejwt;
+
+# Multi select pkg
+django-multiselectfield;
+
+Pillow
+psycopg2-binary
