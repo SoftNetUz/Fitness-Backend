@@ -16,7 +16,10 @@ class Attendance(BaseModel):
     # Optionally, store the code used for audit
     code_used = models.CharField(max_length=4, blank=True, null=True)
 
+    # 1) “active only” manager
     objects = AttendanceManager()
+    # 2) an explicit manager for everything
+    all_objects = models.Manager()
 
     class Meta:
         constraints = [
