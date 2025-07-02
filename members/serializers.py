@@ -10,6 +10,15 @@ class FitnessClubSerializer(serializers.ModelSerializer):
         model = FitnessClub
         fields = '__all__'
 
+    def get_logo_url(self, obj):
+        request = self.context.get('request')
+        if obj.logo and hasattr(obj.logo, 'url'):
+            logo_url = obj.logo.url
+            if request is not None:
+                return request.build_absolute_uri(logo_url)
+            return logo_url
+        return None
+
 
 # Member serializer
 class MemberSerializer(serializers.ModelSerializer):
