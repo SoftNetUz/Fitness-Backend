@@ -21,7 +21,15 @@ class FitnessClub(BaseModel):
     # Singleton pattern
     @classmethod
     def get_instance(cls):
-        instance, created = cls.objects.get_or_create(id=1)
+        instance, created = cls.objects.get_or_create(
+            id=1,
+            defaults={
+                'name': 'Default Club',
+                'daily': 0,
+                'monthly': 0,
+                'vip': False,
+            }
+        )
         return instance
     
     def save(self, *args, **kwargs):
