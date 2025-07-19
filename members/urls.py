@@ -4,7 +4,7 @@ from .views import FitnessClubViewSet, MemberViewSet, MemberStatsAPIView, Attend
 
 router = DefaultRouter()
 router.register('fitness-clubs', FitnessClubViewSet)
-router.register('members', MemberViewSet, basename='members')
+router.register('members', MemberViewSet, basename='member')
 router.register('attended-time', AttendanceViewSet, basename='attended-time')
 
 urlpatterns = router.urls + [

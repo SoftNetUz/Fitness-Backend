@@ -22,3 +22,10 @@ class BaseModel(models.Model):
 
     class Meta:
         abstract = True
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['state']),
+        ]
+        
+    def __str__(self):
+        return f"{self.__class__.__name__} - {self.pk}"

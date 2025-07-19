@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import FitnessClub, Member, AttendedTime
+from .models import FitnessClub, Member
+from attendance.models import Attendance
 from django.utils.html import format_html
 
 @admin.register(FitnessClub)
@@ -19,11 +20,6 @@ class FitnessClubAdmin(admin.ModelAdmin):
 
 @admin.register(Member)
 class MemberAdmin(admin.ModelAdmin):
-    list_display = ('f_name', 'l_name', 'phone', 'gender', 'payment_amount', 'payment_type', 'branch')
-    list_filter = ('gender', 'payment_type', 'branch',)
-    search_fields = ('f_name', 'l_name', 'phone', 'branch')
-
-@admin.register(AttendedTime)
-class AttendanceAdmin(admin.ModelAdmin):
-    list_display = ('member', 'attended_at')
-    list_filter = ('attended_at', 'member')
+    list_display = ('f_name', 'l_name', 'phone', 'gender', 'payment_amount', 'payment_type')
+    list_filter = ('gender', 'payment_type',)
+    search_fields = ('f_name', 'l_name', 'phone',)

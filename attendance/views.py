@@ -6,6 +6,8 @@ from rest_framework.generics import ListAPIView
 from django_filters.rest_framework import DjangoFilterBackend
 from django.utils import timezone
 from datetime import date
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
+from rest_framework.pagination import PageNumberPagination
 
 from .models import Attendance
 from .serializers import AttendanceSerializer
@@ -25,6 +27,7 @@ class AttendanceViewSet(viewsets.ModelViewSet):
     serializer_class = AttendanceSerializer
     filter_backends = [DjangoFilterBackend]
     filterset_fields = ['member', 'attended_at']
+    pagination_class = PageNumberPagination
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -52,6 +55,7 @@ class CheckInAPIView(APIView):
     Body: { "pin_code": "1234" }
     """
     permission_classes = [permissions.AllowAny]  # Adjust if you want a kiosk JWT
+    throttle_classes = [AnonRateThrottle, UserRateThrottle]
 
     def post(self, request):
         code = request.data.get('pin_code')

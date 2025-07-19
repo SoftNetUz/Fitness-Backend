@@ -7,18 +7,19 @@ class BaseModelSerializer(serializers.ModelSerializer):
     updated_by = serializers.StringRelatedField(read_only=True)
 
     class Meta:
-        abstract = True
+        pass
 
     def create(self, validated_data):
-        request:HttpRequest = self.context.get("request")
-        if request and request.user.is_authenticated:
-            validated_data['created_by'] = request.user
-            validated_data['updated_by'] = request.user
+        request:HttpRequest = self.context.get("request").user
+        if request and request.is_authenticated:
+            validated_data['created_by'] = request
+            validated_data['updated_by'] = request
 
         return super().create(validated_data)
     
     def update(self, instance, validated_data):
-        request:HttpRequest = self.context.get("request")
-        if request and request.user.is_authenticated:
-            validated_data['updated_by'] = request.user
+        request:HttpRequest = self.context.get("request").user
+        if request and request.is_authenticated:
+            validated_data['updated_by'] = request
         return super().update(instance, validated_data)
+    

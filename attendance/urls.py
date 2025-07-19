@@ -6,6 +6,6 @@ router = DefaultRouter()
 router.register('attendance', AttendanceViewSet, basename='attendance')
 
 urlpatterns = router.urls + [
-    path('attendance/check-in/', CheckInAPIView.as_view(), name='attendance-check-in'),
-    path('attendance/today/', TodayAttendanceListAPIView.as_view(), name='attendance-today'),
+    path('check-in/', CheckInAPIView.as_view(), name='attendance-check-in'),
+    path('today/', TodayAttendanceListAPIView.as_view(), name='attendance-today'),
 ]
