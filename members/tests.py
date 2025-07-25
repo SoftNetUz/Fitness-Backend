@@ -1,5 +1,4 @@
 import pytest
-from decimal import Decimal
 from datetime import date
 from django.urls import reverse
 from django.contrib.auth import get_user_model
@@ -51,11 +50,11 @@ def test_image():
 
 def test_fitness_club_creation(db, user):
     club = FitnessClub.objects.create(
-        name='Test Club', daily=Decimal('50.00'), monthly=Decimal('500.00'), vip=True, created_by=user
+        name='Test Club', daily=50.0, monthly=500.0, vip=True, created_by=user
     )
     assert club.name == 'Test Club'
-    assert club.daily == Decimal('50.00')
-    assert club.monthly == Decimal('500.00')
+    assert club.daily == 50.0
+    assert club.monthly == 500.0
     assert club.vip is True
     assert club.state is True
     assert str(club) == 'Test Club'
@@ -71,14 +70,14 @@ def test_fitness_club_singleton(db, user):
 def test_member_creation(db, user):
     member = Member.objects.create(
         f_name='John', l_name='Doe', phone='+998901234567', gender='E', pin_code='1234',
-        payment_amount=Decimal('500.00'), payment_type='Oylik', branch='Main', created_by=user
+        payment_amount=500.0, payment_type='Oylik', branch='Main', created_by=user
     )
     assert member.f_name == 'John'
     assert member.l_name == 'Doe'
     assert member.phone == '+998901234567'
     assert member.gender == 'E'
     assert member.pin_code == '1234'
-    assert member.payment_amount == Decimal('500.00')
+    assert member.payment_amount == 500.0
     assert member.payment_type == 'Oylik'
     assert member.branch == 'Main'
     assert member.state is True
@@ -88,12 +87,12 @@ def test_member_creation(db, user):
 def test_member_pin_code_uniqueness(db, user):
     Member.objects.create(
         f_name='John', l_name='Doe', phone='+998901234567', gender='E', pin_code='1234',
-        payment_amount=Decimal('500.00'), payment_type='Oylik', branch='Main', created_by=user
+        payment_amount=500.0, payment_type='Oylik', branch='Main', created_by=user
     )
     with pytest.raises(Exception):
         Member.objects.create(
             f_name='Jane', l_name='Smith', phone='+998901234568', gender='A', pin_code='1234',
-            payment_amount=Decimal('300.00'), payment_type='Kunlik', branch='Main', created_by=user
+            payment_amount=300.0, payment_type='Kunlik', branch='Main', created_by=user
         )
 
 
@@ -114,26 +113,26 @@ def test_attended_time_uniqueness(db, user):
 
 def test_fitness_club_serializer(db, user):
     club = FitnessClub.objects.create(
-        name='Test Club', daily=Decimal('50.00'), monthly=Decimal('500.00'), vip=True, created_by=user
+        name='Test Club', daily=50.0, monthly=500.0, vip=True, created_by=user
     )
     data = FitnessClubSerializer(club).data
     assert data['name'] == 'Test Club'
-    assert Decimal(data['daily']) == Decimal('50.00')
-    assert Decimal(data['monthly']) == Decimal('500.00')
+    assert float(data['daily']) == 50.0
+    assert float(data['monthly']) == 500.0
     assert data['vip'] is True
 
 
 def test_member_serializer(db, user):
     member = Member.objects.create(
         f_name='John', l_name='Doe', phone='+998901234567', gender='E', pin_code='1234',
-        payment_amount=Decimal('500.00'), payment_type='Oylik', branch='Main', created_by=user
+        payment_amount=500.0, payment_type='Oylik', branch='Main', created_by=user
     )
     data = MemberSerializer(member).data
     assert data['f_name'] == 'John'
     assert data['l_name'] == 'Doe'
     assert data['gender'] == 'E'
     assert data['pin_code'] == '1234'
-    assert Decimal(data['payment_amount']) == Decimal('500.00')
+    assert float(data['payment_amount']) == 500.0
     assert data['payment_type'] == 'Oylik'
     assert data['branch'] == 'Main'
 

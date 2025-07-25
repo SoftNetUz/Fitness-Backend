@@ -17,6 +17,25 @@ class FitnessClub(BaseModel):
     class Meta:
         verbose_name_plural = "Fitness klublar"
 
+    # Singleton pattern
+    @classmethod
+    def get_instance(cls):
+        instance, created = cls.objects.get_or_create(
+            id=1,
+            defaults={
+                'name': 'Default Club',
+                'daily': 0,
+                'monthly': 0,
+                'vip': False,
+            }
+        )
+        return instance
+
+    def save(self, *args, **kwargs):
+        if self.__class__.objects.exists() and not self.pk:
+            return
+        super(FitnessClub, self).save(*args, **kwargs)
+
 
 class Member(BaseModel):
     class Gender(models.TextChoices):
