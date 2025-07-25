@@ -29,7 +29,7 @@ class MembershipSale(BaseModel):
         related_name="membership_sales",
         verbose_name="Member"
     )
-    sale_date = models.DateField(
+    sale_date = models.DateTimeField(
         default=timezone.now,
         verbose_name="Sale Date"
     )
@@ -95,7 +95,7 @@ class AttendanceReport(BaseModel):
         related_name="attendance_reports",
         verbose_name="Member"
     )
-    date = models.DateField(
+    date = models.DateTimeField(
         default=timezone.now,
         verbose_name="Report Date"
     )
@@ -176,7 +176,7 @@ class AttendanceReport(BaseModel):
 class IncomeExpenseReport(BaseModel):
     """Track daily income vs expenses for financial reporting."""
     
-    date = models.DateField(
+    date = models.DateTimeField(
         default=timezone.now,
         verbose_name="Report Date"
     )
@@ -284,10 +284,10 @@ class Subscription(BaseModel):
         related_name="subscriptions",
         verbose_name="Member"
     )
-    start_date = models.DateField(
+    start_date = models.DateTimeField(
         verbose_name="Start Date"
     )
-    end_date = models.DateField(
+    end_date = models.DateTimeField(
         verbose_name="End Date"
     )
     subscription_type = models.CharField(
@@ -359,7 +359,7 @@ class Subscription(BaseModel):
         )
 
 class DailyReport(models.Model):
-    date = models.DateField(unique=True, db_index=True)
+    date = models.DateTimeField(unique=True, db_index=True)
     income = models.FloatField(default=0)
     expense = models.FloatField(default=0)
     new_members = models.PositiveIntegerField(default=0)
@@ -382,7 +382,7 @@ class DailyReport(models.Model):
         return f"Daily Report: {self.date}"
 
 class MonthlyReport(models.Model):
-    month = models.DateField(unique=True, db_index=True)  # Use first day of month
+    month = models.DateTimeField(unique=True, db_index=True)  # Use first day of month
     income = models.FloatField(default=0)
     expense = models.FloatField(default=0)
     new_members = models.PositiveIntegerField(default=0)

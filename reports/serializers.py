@@ -141,7 +141,7 @@ class SubscriptionSerializer(serializers.ModelSerializer):
 class IncomeReportSerializer(serializers.Serializer):
     """Serializer for income report data."""
     
-    date = serializers.DateField()
+    date = serializers.DateTimeField()
     total_income = serializers.DecimalField(max_digits=12, decimal_places=2)
     payment_count = serializers.IntegerField()
     avg_payment = serializers.DecimalField(max_digits=10, decimal_places=2)
@@ -150,7 +150,7 @@ class IncomeReportSerializer(serializers.Serializer):
 class AttendanceReportDataSerializer(serializers.Serializer):
     """Serializer for attendance report data."""
     
-    date = serializers.DateField()
+    date = serializers.DateTimeField()
     total_check_ins = serializers.IntegerField()
     unique_members = serializers.IntegerField()
     avg_duration = serializers.DecimalField(
@@ -165,7 +165,7 @@ class ExpiringMembershipSerializer(serializers.Serializer):
     
     member_name = serializers.CharField()
     phone = serializers.CharField()
-    expiry_date = serializers.DateField()
+    expiry_date = serializers.DateTimeField()
     days_remaining = serializers.IntegerField()
     subscription_type = serializers.CharField()
 
@@ -175,7 +175,7 @@ class UnpaidMemberSerializer(serializers.Serializer):
     
     member_name = serializers.CharField()
     phone = serializers.CharField()
-    last_payment_date = serializers.DateField(allow_null=True)
+    last_payment_date = serializers.DateTimeField(allow_null=True)
     days_since_last_payment = serializers.IntegerField()
     total_debt = serializers.DecimalField(max_digits=10, decimal_places=2)
 

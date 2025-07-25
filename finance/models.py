@@ -14,7 +14,7 @@ class Costs(BaseModel):
     cost_name = models.CharField(max_length=100, verbose_name="Chiqim nomi")
     quantity = models.FloatField(default=0, verbose_name="Miqdor")
     desc = models.CharField(max_length=200, blank=True, null=True, verbose_name="Izoh")
-    date = models.DateField(default=timezone.now, verbose_name="Sana")
+    date = models.DateTimeField(default=timezone.now, verbose_name="Sana")
 
     objects = ActiveManager()       # state=True only
     all_objects = models.Manager() # if you ever need soft-deleted rows
@@ -42,7 +42,7 @@ class Payment(BaseModel):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="payments")
     # Switch to DecimalField for exact money amounts:
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="To'lov Miqdori")
-    date = models.DateField(default=timezone.now, verbose_name="To'lov sanasi")
+    date = models.DateTimeField(default=timezone.now, verbose_name="To'lov sanasi")
     payment_type = models.CharField(
         max_length=50,
         choices=PAYMENT_TYPE,
@@ -71,7 +71,7 @@ class Debt(BaseModel):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name="debts")
     # Switch to DecimalField for exact money amounts:
     amount = models.DecimalField(max_digits=10, decimal_places=2, default=0, verbose_name="Qarz miqdori")
-    due_date = models.DateField(default=timezone.now, verbose_name="To'lov sanasi")
+    due_date = models.DateTimeField(default=timezone.now, verbose_name="To'lov sanasi")
     desc = models.CharField(max_length=200, blank=True, null=True, verbose_name="Izoh")
 
     objects = ActiveManager()

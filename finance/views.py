@@ -1,5 +1,3 @@
-# finance/views.py
-
 from rest_framework import viewsets, permissions
 from .models import Costs, Payment, Debt
 from .serializers import CostsSerializer, PaymentSerializer, DebtSerializer

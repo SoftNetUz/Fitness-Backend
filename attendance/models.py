@@ -12,7 +12,7 @@ class AttendanceManager(models.Manager):
 
 class Attendance(BaseModel):
     member = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='attendances')
-    attended_at = models.DateField(auto_now_add=True, db_index=True)
+    attended_at = models.DateTimeField(auto_now_add=True, db_index=True)
     # Optionally, store the code used for audit
     code_used = models.CharField(max_length=4, blank=True, null=True)
 

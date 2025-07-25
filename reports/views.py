@@ -217,7 +217,7 @@ class AttendanceReportView(APIView):
                 queryset = queryset.filter(member__branch=branch)
             
             # Aggregate data by date
-        data = (
+            data = (
                 queryset
             .values('attended_at__date')
                 .annotate(
@@ -260,35 +260,36 @@ class ExpiringMembershipsView(APIView):
     """
     permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
+    serializer_class = ExpiringMembershipSerializer
 
     def get(self, request):
         try:
             days = int(request.query_params.get('days', 7))
-        today = now().date()
+            today = now().date()
             soon = today + timedelta(days=days)
 
-        results = []
+            results = []
             for member in Member.objects.filter(state=True).select_related():
                 expiry = get_expiry_date(member)
-            if today <= expiry <= soon:
-                results.append({
+                if today <= expiry <= soon:
+                    results.append({
                         'member_name': f"{member.f_name} {member.l_name}",
                         'phone': member.phone,
-                    'expiry_date': expiry,
+                        'expiry_date': expiry,
                         'days_remaining': (expiry - today).days,
                         'subscription_type': member.payment_type,
                     })
-            
+
             # Sort by days remaining
             results.sort(key=lambda x: x['days_remaining'])
-            
+
             # Paginate results
             paginator = self.pagination_class()
             paginated_data = paginator.paginate_queryset(results, request)
-            
+
             serializer = ExpiringMembershipSerializer(paginated_data, many=True)
             return paginator.get_paginated_response(serializer.data)
-            
+
         except ValueError:
             return Response(
                 {'error': 'Invalid days parameter. Must be a number.'},
@@ -309,58 +310,59 @@ class UnpaidMembersView(APIView):
     """
     permission_classes = [IsAuthenticated]
     pagination_class = StandardResultsSetPagination
+    serializer_class = UnpaidMemberSerializer
 
     def get(self, request):
         try:
             days = int(request.query_params.get('days', 30))
-        today = now().date()
+            today = now().date()
             cutoff = today - timedelta(days=days)
 
             # Find members who have paid recently
-        recent_paid_member_ids = set(
-            Payment.objects
-            .filter(date__gte=cutoff, state=True)
-            .values_list('member_id', flat=True)
-        )
+            recent_paid_member_ids = set(
+                Payment.objects
+                .filter(date__gte=cutoff, state=True)
+                .values_list('member_id', flat=True)
+            )
 
-        results = []
+            results = []
             for member in Member.objects.filter(state=True).select_related():
                 if member.id not in recent_paid_member_ids:
                     # Find last payment
-            last_payment = (
-                Payment.objects
+                    last_payment = (
+                        Payment.objects
                         .filter(member=member, state=True)
-                .order_by('-date')
-                .first()
-            )
-                    
-            last_date = last_payment.date if last_payment else None
+                        .order_by('-date')
+                        .first()
+                    )
+
+                    last_date = last_payment.date if last_payment else None
                     days_since = (today - last_date).days if last_date else None
-                    
+
                     # Calculate total debt
                     total_debt = Debt.objects.filter(
-                        member=member, 
+                        member=member,
                         state=True
                     ).aggregate(total=Sum('amount'))['total'] or Decimal('0.00')
-                    
-                results.append({
+
+                    results.append({
                         'member_name': f"{member.f_name} {member.l_name}",
                         'phone': member.phone,
-                    'last_payment_date': last_date,
+                        'last_payment_date': last_date,
                         'days_since_last_payment': days_since,
                         'total_debt': total_debt,
                     })
-            
+
             # Sort by days since last payment (most recent first)
             results.sort(key=lambda x: x['days_since_last_payment'] or float('inf'))
-            
+
             # Paginate results
             paginator = self.pagination_class()
             paginated_data = paginator.paginate_queryset(results, request)
-            
+
             serializer = UnpaidMemberSerializer(paginated_data, many=True)
             return paginator.get_paginated_response(serializer.data)
-            
+
         except ValueError:
             return Response(
                 {'error': 'Invalid days parameter. Must be a number.'},

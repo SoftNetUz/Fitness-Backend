@@ -8,6 +8,7 @@ from utils.serializers import BaseModelSerializer
 class FitnessClubSerializer(serializers.ModelSerializer):
     logo_url = serializers.SerializerMethodField()
 
+
     class Meta: 
         model = FitnessClub
         fields = '__all__'
