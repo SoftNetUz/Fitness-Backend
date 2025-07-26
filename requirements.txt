@@ -6,12 +6,12 @@ djangorestframework==3.14.0
 django-filter==23.5
 djangorestframework-simplejwt==5.3.1
 django-cors-headers==4.3.1
-drf-yasg==1.21.7  # For API documentation
+drf-yasg==1.21.10  # For API documentation
 
 # Utilities
 markdown==3.5.2
 django-multiselectfield==0.1.12
-Pillow==10.2.0
+Pillow==11.3.0
 
 # Testing
 pytest==7.4.4

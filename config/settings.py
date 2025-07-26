@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     # Third-party apps
     "corsheaders",
     "rest_framework",
-    'drf_yasg',
+    'drf_spectacular',
     'rest_framework_simplejwt',
     'django_filters',
     # Local apps
@@ -64,6 +64,13 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173"
 ]
 
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Fitness App API',
+    'DESCRIPTION': 'API for a fitness app.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+}
+
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
     'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -74,6 +81,7 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
     'DEFAULT_THROTTLE_CLASSES': [
         'rest_framework.throttling.AnonRateThrottle',
