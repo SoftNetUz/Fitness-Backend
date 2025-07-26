@@ -13,7 +13,7 @@ project_root = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, project_root)
 
 # Configure Django settings
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'myFitnessBack.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
 django.setup()
 
 # Pytest fixtures and configuration can be added here 
