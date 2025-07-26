@@ -13,9 +13,6 @@ markdown==3.5.2
 django-multiselectfield==0.1.12
 Pillow==10.2.0
 
-# Database
-psycopg2-binary==2.9.9  # For PostgreSQL; remove if only using SQLite
-
 # Testing
 pytest==7.4.4
 pytest-django==4.7.0
