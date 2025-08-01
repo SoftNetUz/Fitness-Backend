@@ -21,7 +21,7 @@ class MemberViewSet(viewsets.ModelViewSet):
     serializer_class = MemberSerializer
     permission_classes = [permissions.IsAuthenticated]
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    search_fields = ['f_name', 'l_name', 'phone', 'payment_type', 'branch']
+    search_fields = ['f_name', 'l_name', 'phone', 'payment_type']
     ordering_fields = ['created_at', 'f_name', 'l_name', 'payment_type']
 
 class AttendanceViewSet(viewsets.ModelViewSet):

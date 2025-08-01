@@ -22,7 +22,7 @@ SECRET_KEY = "django-insecure-5y*gojs28e%@v6gqy$jzt!j%e2%uejo4p9tfsosv$v_bn01%-n
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*'] 
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -37,16 +37,15 @@ INSTALLED_APPS = [
     # Third-party apps
     "corsheaders",
     "rest_framework",
-    'drf_spectacular',
-    'rest_framework_simplejwt',
-    'django_filters',
+    "drf_spectacular",
+    "rest_framework_simplejwt",
+    "django_filters",
     # Local apps
     "utils",
     "members",
     "finance",
     "attendance",
     "reports",
-
 ]
 
 MIDDLEWARE = [
@@ -56,55 +55,52 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173"
-]
+CORS_ALLOWED_ORIGINS = ["http://localhost:5173"]
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Fitness App API',
-    'DESCRIPTION': 'API for a fitness app.',
-    'VERSION': '1.0.0',
-    'SERVE_INCLUDE_SCHEMA': False,
+    "TITLE": "Fitness App API",
+    "DESCRIPTION": "API for a fitness app.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-    'rest_framework_simplejwt.authentication.JWTAuthentication',
-],
-    'DEFAULT_PARSER_CLASSES': [
-            'rest_framework.parsers.JSONParser',
-        ],
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    ),
-    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
-    'DEFAULT_THROTTLE_CLASSES': [
-        'rest_framework.throttling.AnonRateThrottle',
-        'rest_framework.throttling.UserRateThrottle',
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.SessionAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
     ],
-    'DEFAULT_THROTTLE_RATES': {
-        'anon': '10/minute',
-        'user': '60/minute',
+    "DEFAULT_PARSER_CLASSES": [
+        "rest_framework.parsers.JSONParser",
+    ],
+    "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_FILTER_BACKENDS": ["django_filters.rest_framework.DjangoFilterBackend"],
+    "DEFAULT_THROTTLE_CLASSES": [
+        "rest_framework.throttling.AnonRateThrottle",
+        "rest_framework.throttling.UserRateThrottle",
+    ],
+    "DEFAULT_THROTTLE_RATES": {
+        "anon": "10/minute",
+        "user": "60/minute",
     },
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 20,
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 20,
 }
 
 # Token Time Limit extension
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=30),  # Default is 5 minutes
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30), 
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
 }
 
 
 # Media support for logos
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 
 ROOT_URLCONF = "config.urls"
@@ -169,7 +165,7 @@ USE_I18N = True
 
 USE_TZ = True
 
-APPEND_SLASH=False
+APPEND_SLASH = False
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
