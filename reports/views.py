@@ -54,13 +54,6 @@ class DashboardStatsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        # Use cache to improve performance
-        cache_key = f"dashboard_stats_{request.user.id}"
-        cached_data = cache.get(cache_key)
-        
-        if cached_data:
-            return Response(cached_data)
-        
         today = now().date()
         month_start = today.replace(day=1)
         
@@ -70,10 +63,10 @@ class DashboardStatsView(APIView):
             active_members = Member.objects.filter(state=True).count()  # All active members
             
             # Expiring members (next 7 days)
-            expiring_soon = 0
-            for member in Member.objects.filter(state=True):
-                if not is_expired(member) and get_expiry_date(member) <= today + timedelta(days=3):
-                    expiring_soon += 1
+            expiring_soon = sum(
+                1 for m in Member.objects.filter(state=True)
+                if not is_expired(m) and get_expiry_date(m) <= today + timedelta(days=3)
+            )
             
             # Today's financial data
             today_income = Payment.objects.filter(
@@ -119,9 +112,6 @@ class DashboardStatsView(APIView):
                 'monthly_expenses': monthly_expenses,
                 'profit_margin': round(profit_margin, 2),
             }
-            
-            # Cache for 5 minutes
-            cache.set(cache_key, stats, 300)
             
             serializer = DashboardStatsSerializer(stats)
             return Response(serializer.data)
